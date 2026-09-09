@@ -1,0 +1,27 @@
+name: Download and Convert CSAT Report
+
+on:
+  schedule:
+    - cron: '0 16 * * 1'
+  workflow_dispatch:
+
+jobs:
+  download-and-convert:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: npm install axios xlsx
+      - env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          SHAREPOINT_USERNAME: ${{ secrets.SHAREPOINT_USERNAME }}
+          SHAREPOINT_PASSWORD: ${{ secrets.SHAREPOINT_PASSWORD }}
+        run: node scripts/convert.js
+      - run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update CSAT report - $(date +%Y-%m-%d)" && git push)
