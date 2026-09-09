@@ -11,7 +11,7 @@ const config = {
   password: process.env.SHAREPOINT_PASSWORD,
   tenant: 'snapfinancellc',
   site: 'Snap-Finance',
-  folderPath: "Process Improvement and Program Development/PIPD Team Files/Process Documentation",
+  folderPath: "Process Improvement and Program Development/PIPD Team Files/Process Documentation/CSAT",
   fileName: 'CSAT Reporting.xlsx',
 };
 
